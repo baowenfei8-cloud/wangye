@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>TIMAGE · Master Contour Palette</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Outfit:wght@200;300;400;500;600&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:68px}
+body{
+  font-family:'Outfit','Noto Sans SC',sans-serif;
+  background:#fcf8f3;
+  color:#1a1410;
+  overflow-x:hidden;
+  line-height:1.65;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+::selection{background:#a6774e;color:#fff}
+
+:root{
+  --bg:#fcf8f3;
+  --bg2:#f9f0e6;
+  --bg3:#f0e4d4;
+  --line:#dccfc0;
+  --clay:#b8957a;
+  --sienna:#a6774e;
+  --brown:#8b5e3c;
+  --ink:#1a1410;
+  --gray:#7a6e62;
+  --gray2:#a89888;
+  --gold:#c4a87a;
+}
+
+/* LOADER */
+#loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  transition:opacity 0.5s,visibility 0.5s;
+}
+#loader.hidden{opacity:0;visibility:hidden}
+.loader-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2rem;color:var(--ink);
+  letter-spacing:0.3em;
+}
+.loader-bar{
+  width:120px;height:1px;background:var(--bg3);
+  margin-top:1.5rem;overflow:hidden;
+}
+.loader-bar::after{
+  content:'';display:block;
+  width:50%;height:100%;
+  background:var(--sienna);
+  animation:l 0.9s ease infinite;
+}
+@keyframes l{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+
+/* NAV */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:68px;padding:0 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.3s;
+  background:transparent;
+}
+.nav.scrolled{
+  background:rgba(252,248,243,0.92);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;color:var(--ink);
+  letter-spacing:0.06em;
+}
+.nav-logo small{
+  font-size:0.55rem;color:var(--gray2);
+  font-family:'Outfit',sans-serif;font-weight:300;
+  letter-spacing:0.18em;margin-left:0.5rem;text-transform:uppercase;
+}
+.nav-links{display:flex;gap:0;list-style:none}
+.nav-links a{
+  padding:0.35rem 0.7rem;
+  font-size:0.65rem;font-weight:400;
+  color:var(--gray);letter-spacing:0.06em;
+  transition:color 0.25s;
+}
+.nav-links a:hover,.nav-links a.active{color:var(--sienna)}
+.nav-toggle{display:none;flex-direction:column;gap:4px;cursor:pointer;background:none;border:none;padding:6px}
+.nav-toggle span{display:block;width:20px;height:1.5px;background:var(--ink);transition:all 0.3s}
+
+/* PAGES */
+.pg{display:none;min-height:100vh}
+.pg.active{display:block;animation:f 0.4s ease}
+@keyframes f{0%{opacity:0}100%{opacity:1}}
+
+/* TYPOGRAPHY */
+.tag{font-size:0.6rem;font-weight:500;text-transform:uppercase;color:var(--sienna);letter-spacing:0.25em;margin-bottom:0.75rem}
+.title{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--ink);line-height:1.12;letter-spacing:-0.02em}
+.desc{font-size:0.88rem;color:var(--gray);line-height:1.8;max-width:480px}
+.line{width:32px;height:1px;background:var(--clay);margin:1.5rem 0}
+
+/* HERO */
+.hero{
+  position:relative;width:100%;height:100vh;
+  display:flex;align-items:center;
+  overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero-mask{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to right,rgba(26,20,16,0.45) 0%,rgba(26,20,16,0.12) 50%,rgba(26,20,16,0.08) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;
+  max-width:1200px;margin:0 auto;
+  padding:0 3rem;width:100%;
+}
+.hero-content > div{max-width:580px}
+.hero-badge{
+  display:inline-block;padding:0.3rem 1rem;
+  background:rgba(255,255,255,0.1);backdrop-filter:blur(8px);
+  border:1px solid rgba(196,168,122,0.25);
+  font-size:0.55rem;font-weight:500;color:var(--gold);
+  letter-spacing:0.15em;text-transform:uppercase;
+  margin-bottom:1.25rem;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:4.5rem;font-weight:300;line-height:1.05;
+  color:#fff;margin-bottom:1.25rem;letter-spacing:-0.03em;
+}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:0.9rem;color:rgba(255,255,255,0.7);line-height:1.8;max-width:440px;margin-bottom:2rem}
+.btn{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  padding:0.75rem 1.8rem;font-size:0.7rem;font-weight:500;
+  cursor:pointer;transition:all 0.35s;
+  letter-spacing:0.06em;text-transform:uppercase;border:none;
+}
+.btn-primary{background:var(--gold);color:var(--ink)}
+.btn-primary:hover{background:#d4b890;transform:translateY(-2px)}
+.btn-outline{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25)}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+/* SECTION */
+.sec{padding:5rem 3rem;max-width:1200px;margin:0 auto}
+.sec-c{text-align:center}
+.sec-c .desc{margin:0 auto}
+.sec-bg{background:var(--bg2);padding:5rem 3rem}
+.sec-bg2{background:var(--bg3);padding:5rem 3rem}
+
+/* INTRO */
+.intro{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+  padding:6rem 3rem;max-width:1200px;margin:0 auto;
+}
+.intro-img{overflow:hidden;border-radius:2px}
+.intro-img img{width:100%;height:540px;object-fit:cover;transition:transform 0.5s}
+.intro-img:hover img{transform:scale(1.015)}
+.intro-text p{color:var(--gray);font-size:0.88rem;line-height:1.9;margin-bottom:0.8rem}
+.intro-text .hl{color:var(--sienna)}
+
+/* FEATURES */
+.f-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.f-card{padding:3rem 2.5rem;background:var(--bg);transition:all 0.3s}
+.f-card:hover{background:var(--bg2)}
+.f-card .num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;color:var(--clay);opacity:0.12;
+  margin-bottom:0.25rem;line-height:1;
+}
+.f-card h3{font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:500;color:var(--ink);margin-bottom:0.6rem}
+.f-card p{font-size:0.8rem;color:var(--gray);line-height:1.7}
+
+/* R&D */
+.rd-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);max-width:1000px;margin:2rem auto}
+.rd-item{padding:2.5rem;background:var(--bg)}
+.rd-item h4{font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--brown);margin-bottom:0.4rem}
+.rd-item p{font-size:0.78rem;color:var(--gray);line-height:1.7}
+.rd-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);max-width:750px;margin:2rem auto 0}
+.rd-st{text-align:center;padding:2rem;background:var(--bg)}
+.rd-st .big{font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:var(--sienna)}
+.rd-st .sm{font-size:0.7rem;color:var(--gray);margin-top:0.25rem}
+
+/* PRODUCT SHOW */
+.p-show{
+  display:grid;grid-template-columns:1.1fr 1fr;
+  gap:3rem;align-items:center;
+  padding:5rem 3rem;max-width:1200px;margin:0 auto;
+}
+.p-show-img img{width:100%;height:auto}
+.p-show-info .sku{font-size:0.55rem;color:var(--gray2);letter-spacing:0.1em;margin-bottom:0.4rem}
+.p-show-info h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;color:var(--ink);margin-bottom:0.2rem}
+.p-show-info .sub{color:var(--sienna);font-size:0.8rem;margin-bottom:0.75rem}
+.p-show-info p{font-size:0.85rem;color:var(--gray);line-height:1.8;margin-bottom:1rem}
+.p-specs{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;margin:1rem 0}
+.p-spec{
+  display:flex;justify-content:space-between;
+  padding:0.5rem 0.75rem;background:var(--bg2);font-size:0.75rem;
+}
+.p-spec .l{color:var(--gray2)}
+.p-spec .r{color:var(--ink);font-weight:500}
+.p-colors{display:flex;gap:0.6rem;margin:0.75rem 0}
+.p-dot{
+  width:26px;height:26px;border-radius:50%;
+  border:2px solid transparent;cursor:pointer;
+  transition:all 0.25s;
+}
+.p-dot:hover,.p-dot.active{border-color:var(--sienna)}
+.pd1{background:#d4c4a8}
+.pd2{background:#b8956a}
+.pd3{background:#7a6040}
+
+/* GALLERY */
+.gallery{display:flex;gap:1px;background:var(--line)}
+.gallery-item{flex:1;aspect-ratio:1;overflow:hidden}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+.gallery-item:hover img{transform:scale(1.03)}
+
+/* COMPANY */
+.c-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:center;
+  padding:5rem 3rem;max-width:1200px;margin:0 auto;
+}
+.c-grid p{color:var(--gray);font-size:0.86rem;line-height:1.9;margin-bottom:0.8rem}
+.c-grid .quote{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-style:italic;
+  color:var(--sienna);border-left:2px solid var(--sienna);
+  padding-left:1rem;margin:1.2rem 0;
+}
+.c-grid img{width:100%;height:420px;object-fit:cover}
+.milestones{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--line);
+  max-width:1000px;margin:2rem auto;
+}
+.milestone{
+  text-align:center;padding:1.75rem 1rem;
+  background:var(--bg);
+}
+.milestone .yr{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--sienna)}
+.milestone .ev{font-size:0.7rem;color:var(--gray);margin-top:0.3rem}
+
+/* SERVICE */
+.s-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.s-card{padding:2rem 2.5rem;background:var(--bg);transition:all 0.3s}
+.s-card:hover{background:var(--bg2)}
+.s-card .icon{font-size:1.4rem;display:block;margin-bottom:0.6rem}
+.s-card h4{font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:500;color:var(--ink);margin-bottom:0.4rem}
+.s-card p{font-size:0.75rem;color:var(--gray);line-height:1.6}
+
+/* NEWS */
+.n-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line)}
+.n-card{background:var(--bg);overflow:hidden;transition:all 0.3s}
+.n-card:hover{background:var(--bg2)}
+.n-card-img{height:210px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.n-card-img img{width:100%;height:100%;object-fit:cover}
+.n-card-body{padding:1.5rem}
+.n-date{font-size:0.55rem;color:var(--gray2);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem}
+.n-card-body h4{font-family:'Cormorant Garamond',serif;font-size:0.95rem;font-weight:500;color:var(--ink);margin-bottom:0.3rem}
+.n-card-body p{font-size:0.75rem;color:var(--gray);line-height:1.6}
+
+/* JOIN */
+.j-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);max-width:800px;margin:0 auto}
+.j-card{padding:1.5rem;background:var(--bg);transition:all 0.3s}
+.j-card:hover{background:var(--bg2)}
+.j-card h4{font-size:0.85rem;font-weight:500;color:var(--ink);margin-bottom:0.2rem}
+.j-card .loc{font-size:0.65rem;color:var(--clay);margin-bottom:0.4rem}
+.j-card p{font-size:0.75rem;color:var(--gray);line-height:1.6}
+
+/* TEAM */
+.team-intro{text-align:center;max-width:560px;margin:0 auto 2.5rem}
+.team-intro p{color:var(--gray);font-size:0.85rem;line-height:1.8}
+.t-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line)}
+.tm{background:var(--bg);padding:2rem 1.25rem;text-align:center;transition:all 0.3s}
+.tm:hover{background:var(--bg2)}
+.tm .av{
+  width:52px;height:52px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 0.75rem;
+  font-family:'Cormorant Garamond',serif;font-size:1.1rem;
+  color:var(--bg);background:var(--clay);
+  transition:all 0.35s;
+}
+.tm:hover .av{background:var(--sienna);transform:scale(1.06)}
+.tm .name{font-family:'Cormorant Garamond',serif;font-size:0.9rem;color:var(--ink);margin-bottom:0.05rem}
+.tm .cn{font-size:0.7rem;color:var(--gray2);margin-bottom:0.15rem}
+.tm .role{font-size:0.58rem;color:var(--sienna);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem}
+.tm .bio{font-size:0.72rem;color:var(--gray);line-height:1.5}
+
+/* FOOTER */
+.footer{
+  background:var(--ink);color:rgba(255,255,255,0.4);
+  padding:3.5rem 3rem 2rem;
+}
+.footer-g{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:3rem;max-width:1200px;margin:0 auto;
+  padding-bottom:2rem;border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.footer-brand h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--gold);margin-bottom:0.4rem}
+.footer-brand p{font-size:0.7rem;line-height:1.7;max-width:260px}
+.footer-col h4{font-size:0.6rem;font-weight:500;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.6rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin-bottom:0.3rem}
+.footer-col a{font-size:0.7rem;color:rgba(255,255,255,0.35);transition:color 0.25s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bot{text-align:center;padding-top:1.5rem;font-size:0.65rem;color:rgba(255,255,255,0.15)}
+
+/* ANIMATION */
+.rv{opacity:0;transform:translateY(24px);transition:opacity 0.6s,transform 0.6s}
+.rv.show{opacity:1;transform:translateY(0)}
+.d1{transition-delay:0.08s}
+.d2{transition-delay:0.16s}
+.d3{transition-delay:0.24s}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .f-grid,.t-grid,.s-grid{grid-template-columns:repeat(2,1fr)}
+  .milestones{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:768px){
+  .nav{padding:0 1.25rem}
+  .nav-toggle{display:flex}
+  .nav-links{
+    position:fixed;top:68px;left:0;right:0;
+    background:rgba(252,248,243,0.97);backdrop-filter:blur(20px);
+    flex-direction:column;padding:0.5rem;
+    transform:translateY(-8px);opacity:0;pointer-events:none;
+    transition:all 0.3s;border-bottom:1px solid rgba(0,0,0,0.06);
+  }
+  .nav-links.open{transform:translateY(0);opacity:1;pointer-events:all}
+  .nav-links a{padding:0.5rem 0.75rem;width:100%;font-size:0.7rem}
+  .hero{height:90vh}
+  .hero-content{padding:0 1.25rem}
+  .hero h1{font-size:2.8rem}
+  .hero-content > div{max-width:100%}
+  .sec,.sec-bg,.sec-bg2{padding:3rem 1.25rem}
+  .intro{padding:3rem 1.25rem;grid-template-columns:1fr}
+  .f-grid{grid-template-columns:1fr}
+  .rd-grid{grid-template-columns:1fr}
+  .rd-stats{grid-template-columns:1fr}
+  .p-show{padding:3rem 1.25rem;grid-template-columns:1fr}
+  .gallery{flex-wrap:wrap}
+  .gallery-item{flex:1 1 100%}
+  .c-grid{padding:3rem 1.25rem;grid-template-columns:1fr}
+  .milestones,.s-grid,.n-grid,.j-grid,.t-grid{grid-template-columns:1fr}
+  .footer{padding:2rem 1.25rem}
+  .footer-g{grid-template-columns:1fr 1fr}
+  .title{font-size:2.2rem}
+}
+@media(max-width:480px){
+  .footer-g,.p-specs{grid-template-columns:1fr}
+  .hero h1{font-size:2.2rem}
+}
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-logo">TIMAGE</div>
+  <div class="loader-bar"></div>
+</div>
+
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo" onclick="nav('home')">TIMAGE <small>EST. 2014</small></a>
+  <button class="nav-toggle" onclick="tog()" aria-label="Menu"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="nl">
+    <li><a href="#" onclick="nav('home')" class="active">Home</a></li>
+    <li><a href="#" onclick="nav('rd')">R&D</a></li>
+    <li><a href="#" onclick="nav('products')">Products</a></li>
+    <li><a href="#" onclick="nav('company')">Company</a></li>
+    <li><a href="#" onclick="nav('service')">Service</a></li>
+    <li><a href="#" onclick="nav('news')">News</a></li>
+    <li><a href="#" onclick="nav('join')">Join Us</a></li>
+    <li><a href="#" onclick="nav('team')">Team</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div class="pg active" id="p-home">
+  <section class="hero">
+    <div class="hero-bg"><img src="assets/images/hero-model.jpg" alt="TIMAGE"></div>
+    <div class="hero-mask"></div>
+    <div class="hero-content">
+      <div>
+        <div class="hero-badge">Master Contour Palette 4.0</div>
+        <h1>Sculpt with <em>Light & Shadow</em></h1>
+        <p>A three-in-one highlight, contour & bronzer powder, precisely formulated for Asian skin tones. VOGUE C-Beauty Award 2024 Winner.</p>
+        <div>
+          <button class="btn btn-primary" onclick="nav('products')">View Product</button>
+          <button class="btn btn-outline" onclick="nav('company')" style="margin-left:0.75rem">Our Story</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="intro">
+    <div class="intro-img rv"><img src="assets/images/product-02.webp" alt="TIMAGE Contour Palette"></div>
+    <div class="intro-text rv d2">
+      <div class="tag">About TIMAGE</div>
+      <h2 class="title">Beauty Designed<br>for Asian Features</h2>
+      <div class="line"></div>
+      <p>TIMAGE (<span class="hl">彩棠</span>) is a prestige Chinese cosmetics brand founded by internationally acclaimed makeup artist <span class="hl">Tang Yi</span>, with over two decades crafting iconic looks for A-list celebrities at Cannes and beyond.</p>
+      <p>Our flagship <span class="hl">Master Contour Palette 4.0</span> (SKU: 609588171364) — <span class="hl">01 日影柔</span> — combines three perfectly balanced shades for effortless, mistake-proof sculpting.</p>
+      <button class="btn btn-primary" style="margin-top:0.5rem" onclick="nav('products')">Discover More →</button>
+    </div>
+  </section>
+
+  <div class="f-grid">
+    <div class="f-card rv"><div class="num">01</div><h3>Tri-Color Precision</h3><p>Three calibrated shades — highlight, contour & bronzer — for Asian undertones. Available in 01 日影柔, 02 月晖清, 03 云光凝.</p></div>
+    <div class="f-card rv d1"><div class="num">02</div><h3>Silk-Micron Powder</h3><p>Ultra-fine 5-micron particles for a seamless, second-skin feel. No chalky or muddy finish — just perfectly blended contours.</p></div>
+    <div class="f-card rv d2"><div class="num">03</div><h3>12H Long-Wear</h3><p>Advanced Film-Forming Complex locks in your look for up to 12 hours. Sweat-resistant, transfer-proof, and weightless on skin.</p></div>
+  </div>
+</div>
+
+<!-- R&D -->
+<div class="pg" id="p-rd">
+  <section class="sec sec-c" style="padding-top:7rem">
+    <div class="tag">Research & Development</div>
+    <h2 class="title">Innovation Behind the Palette</h2>
+    <p class="desc" style="margin:1rem auto 0">Every gram of TIMAGE contour powder is the result of rigorous cosmetic science, tailored for Asian complexions.</p>
+  </section>
+
+  <div class="rd-grid">
+    <div class="rd-item rv"><h4>Micronized Powder Technology</h4><p>Proprietary milling achieves 5-micron particles — 10× finer than conventional powders — ensuring a silky, blendable texture that disappears into skin without settling into pores.</p></div>
+    <div class="rd-item rv d1"><h4>Asian Skin Tone Database</h4><p>Over 10,000 Asian skin tones analyzed to develop color formulations that complement warm, neutral, and cool undertones without the ashy cast common in Western contour products.</p></div>
+    <div class="rd-item rv d2"><h4>Film-Forming Complex</h4><p>A breathable, flexible polymer network that adheres to skin while allowing natural micro-movement. Delivers crease-resistant wear for up to 12 hours in humid conditions.</p></div>
+    <div class="rd-item rv d3"><h4>Clean Beauty Commitment</h4><p>Paraben-free, sulfate-free, phthalate-free, and 100% cruelty-free. All ingredients are ethically sourced and dermatologist-tested for sensitive skin.</p></div>
+  </div>
+
+  <div class="rd-stats rv">
+    <div class="rd-st"><div class="big">10,000+</div><div class="sm">Skin Tones Analyzed</div></div>
+    <div class="rd-st"><div class="big">24</div><div class="sm">Months R&D per Formula</div></div>
+    <div class="rd-st"><div class="big">100%</div><div class="sm">Cruelty-Free Certified</div></div>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="pg" id="p-products">
+  <section class="sec sec-c" style="padding-top:7rem">
+    <div class="tag">Signature Product</div>
+    <h2 class="title">Master Contour Palette 4.0</h2>
+    <p class="desc" style="margin:1rem auto 0">VOGUE C-Beauty Award 2024 Winner · SKU: 609588171364</p>
+  </section>
+
+  <section class="p-show">
+    <div class="p-show-img rv"><img src="assets/images/product-01.webp" alt="TIMAGE Master Contour Palette 4.0"></div>
+    <div class="p-show-info rv d2">
+      <div class="sku">SKU: 609588171364 · TIMAGE 彩棠</div>
+      <h2>大师高光修容盘 4.0</h2>
+      <p class="sub">Master Highlight & Contour Powder · 3-in-1 · 01 日影柔</p>
+      <p>Inspired by the soft interplay of sunlight and shadow, this three-in-one palette combines a luminous highlight, a natural-cool contour, and a warm bronzer for effortless, mistake-proof sculpting.</p>
+      <div class="p-colors">
+        <span class="p-dot pd1 active" title="01 日影柔"></span>
+        <span class="p-dot pd2" title="02 月晖清"></span>
+        <span class="p-dot pd3" title="03 云光凝"></span>
+      </div>
+      <div class="p-specs">
+        <div class="p-spec"><span class="l">Version</span><span class="r">01 日影柔</span></div>
+        <div class="p-spec"><span class="l">Weight</span><span class="r">17g / 0.60 oz</span></div>
+        <div class="p-spec"><span class="l">Finish</span><span class="r">Matte Shadow + Glow</span></div>
+        <div class="p-spec"><span class="l">Price</span><span class="r">¥120</span></div>
+        <div class="p-spec"><span class="l">Skin Tone</span><span class="r">Natural / Fair-Medium</span></div>
+        <div class="p-spec"><span class="l">Cruelty-Free</span><span class="r">✓ Certified</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec-bg">
+    <div class="sec-c" style="margin-bottom:2rem">
+      <div class="tag">Product Gallery</div>
+      <h2 class="title" style="font-size:2rem">Every Angle, Perfected</h2>
+    </div>
+    <div class="gallery" style="max-width:1100px;margin:0 auto">
+      <div class="gallery-item rv"><img src="assets/images/product-01.webp" alt="TIMAGE palette front view"></div>
+      <div class="gallery-item rv d1"><img src="assets/images/product-02.webp" alt="TIMAGE palette side view"></div>
+      <div class="gallery-item rv d2"><img src="assets/images/product-03.webp" alt="TIMAGE palette detail"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-c" style="margin-bottom:2.5rem">
+      <div class="tag">Shade Range</div>
+      <h2 class="title" style="font-size:2rem">Choose Your Shade</h2>
+    </div>
+    <div class="f-grid" style="max-width:1000px;margin:0 auto">
+      <div class="f-card rv"><div class="num">◐</div><h3>01 日影柔</h3><p>Matte shadow + skin-tone highlight. Warm-neutral blend that sculpts facial contours with a soft, diffused finish — perfect for natural daily looks.</p></div>
+      <div class="f-card rv d1"><div class="num">◑</div><h3>02 月晖清</h3><p>Shadow + matte highlight + pearl highlight. Delicate pearl powder catches the light for a dewy, moonlit glow that brightens the complexion.</p></div>
+      <div class="f-card rv d2"><div class="num">◈</div><h3>03 云光凝</h3><p>Cool shadow + brightener + volume shade. Cool-toned shadow for precise definition, plus an expansion shade that visually lifts facial features.</p></div>
+    </div>
+  </section>
+</div>
+
+<!-- COMPANY -->
+<div class="pg" id="p-company">
+  <section class="sec sec-c" style="padding-top:7rem">
+    <div class="tag">Company Profile</div>
+    <h2 class="title">The TIMAGE Story</h2>
+    <p class="desc" style="margin:1rem auto 0">From a makeup artist's dream to a celebrated Chinese beauty brand.</p>
+  </section>
+
+  <section class="c-grid">
+    <div class="rv">
+      <p><strong>Tang Yi (唐毅)</strong> — one of China's foremost makeup artists with a 20+ year career styling A-list celebrities at Cannes, Venice, and international red carpets. While serving as a guest artist for L'Oréal Paris, he saw the gap: no prestige cosmetics brand truly understood Asian features.</p>
+      <p>In <strong>2014</strong>, he founded TIMAGE to unite traditional Chinese aesthetics with modern cosmetic science, creating products that celebrate the natural, luminous beauty of Asian women.</p>
+      <div class="quote">"Chinese makeup, natural beauty" — this philosophy drives every formula we create.</div>
+      <p>Today, TIMAGE operates under the Proya Group, with expanded R&D and a growing global presence. The Master Contour Palette won the VOGUE C-Beauty Award in 2024.</p>
+    </div>
+    <div class="rv d2"><img src="assets/images/chinese-aesthetic.jpg" alt="TIMAGE heritage"></div>
+  </section>
+
+  <div class="milestones rv">
+    <div class="milestone"><div class="yr">2014</div><div class="ev">Founded by Tang Yi</div></div>
+    <div class="milestone d1"><div class="yr">2020</div><div class="ev">Joins Proya Group</div></div>
+    <div class="milestone d2"><div class="yr">2024</div><div class="ev">VOGUE C-Beauty Award</div></div>
+    <div class="milestone d3"><div class="yr">2024</div><div class="ev">Guan Yi Collection</div></div>
+  </div>
+</div>
+
+<!-- SERVICE -->
+<div class="pg" id="p-service">
+  <section class="sec sec-c" style="padding-top:7rem">
+    <div class="tag">Customer Care</div>
+    <h2 class="title">After-Sale Service</h2>
+    <p class="desc" style="margin:1rem auto 0">Your satisfaction is our commitment. Comprehensive support at every stage.</p>
+  </section>
+
+  <div class="s-grid" style="max-width:1100px;margin:2rem auto">
+    <div class="s-card rv"><span class="icon">🛡</span><h4>30-Day Guarantee</h4><p>Full refund or exchange within 30 days. No questions asked. Hassle-free return process.</p></div>
+    <div class="s-card rv d1"><span class="icon">📞</span><h4>Customer Support</h4><p>Phone, email, or live chat. We respond within 2 hours during business hours (CST).</p></div>
+    <div class="s-card rv d2"><span class="icon">🚚</span><h4>Free Shipping</h4><p>Free standard shipping on orders over ¥199. Real-time tracking for every order.</p></div>
+    <div class="s-card rv d3"><span class="icon">✓</span><h4>Quality Assurance</h4><p>Every palette individually inspected. Damaged items replaced immediately at no extra cost.</p></div>
+    <div class="s-card rv d3"><span class="icon">💬</span><h4>Beauty Consultation</h4><p>Free personalized shade recommendations from certified beauty consultants.</p></div>
+    <div class="s-card rv d3"><span class="icon">★</span><h4>VIP Rewards</h4><p>Exclusive discounts, early access to new launches, birthday gifts, and point rewards.</p></div>
+  </div>
+
+  <div style="text-align:center;padding:2rem 3rem 4rem">
+    <p style="font-size:0.8rem;color:var(--sienna);margin-bottom:0.3rem">Contact Us</p>
+    <p style="font-size:0.7rem;color:var(--gray)">service@timagecosmetics.com · 400-888-TIMAGE</p>
+  </div>
+</div>
+
+<!-- NEWS -->
+<div class="pg" id="p-news">
+  <section class="sec sec-c" style="padding-top:7rem">
+    <div class="tag">News & Events</div>
+    <h2 class="title">Latest Updates</h2>
+    <p class="desc" style="margin:1rem auto 0">Stay connected with TIMAGE — brand news, awards, and events.</p>
+  </section>
+
+  <div class="n-grid" style="max-width:1100px;margin:2rem auto">
+    <div class="n-card rv">
+      <div class="n-card-img"><img src="assets/images/chinese-aesthetic.jpg" alt="Guan Yi"></div>
+      <div class="n-card-body">
+        <div class="n-date">March 2024</div>
+        <h4>「Guan Yi」Summer Palace Launch</h4>
+        <p>TIMAGE launched the "Guan Yi" collection at Beijing's historic Summer Palace. Brand ambassador Chen Duling attended the spectacular event.</p>
+      </div>
+    </div>
+    <div class="n-card rv d1">
+      <div class="n-card-img"><div style="background:linear-gradient(135deg,#c4a87a,#8b5e3c);width:100%;height:100%;display:flex;align-items:center;justify-content:center"><span style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:#fcf8f3">VOGUE</span></div></div>
+      <div class="n-card-body">
+        <div class="n-date">Nov 2024</div>
+        <h4>VOGUE C-Beauty Award Winner</h4>
+        <p>Master Contour Palette 4.0 received the prestigious VOGUE C-Beauty Award for outstanding formula innovation in the China Brand category.</p>
+      </div>
+    </div>
+    <div class="n-card rv d2">
+      <div class="n-card-img"><div style="background:linear-gradient(135deg,#2c241e,#1a1410);width:100%;height:100%;display:flex;align-items:center;justify-content:center"><span style="font-family:'Cormorant Garamond',serif;font-size:2.2rem;color:#c4a87a">10</span></div></div>
+      <div class="n-card-body">
+        <div class="n-date">2024</div>
+        <h4>10th Anniversary Celebration</h4>
+        <p>A decade of beauty excellence. From Tang Yi's vision to a beloved national brand — celebrating 10 years of empowering Asian beauty.</p>
+      </div>
+    </div>
+    <div class="n-card rv d3">
+      <div class="n-card-img"><div style="background:linear-gradient(135deg,#f0e4d4,#dccfc0);width:100%;height:100%;display:flex;align-items:center;justify-content:center"><span style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:#1a1410">CBE</span></div></div>
+      <div class="n-card-body">
+        <div class="n-date">2024</div>
+        <h4>CBE Beauty Expo Shanghai</h4>
+        <p>TIMAGE showcased the Master Contour Palette 4.0 at China Beauty Expo Shanghai, with live demonstrations drawing record crowds.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JOIN -->
+<div class="pg" id="p-join">
+  <section class="sec sec-c" style="padding-top:7rem">
+    <div class="tag">Careers</div>
+    <h2 class="title">Join Our Team</h2>
+    <p class="desc" style="margin:1rem auto 0">Be part of a passionate team redefining Chinese beauty on the global stage.</p>
+  </section>
+
+  <section class="sec-c rv" style="margin-top:1.5rem">
+    <p style="color:var(--gray);font-size:0.85rem;line-height:1.8;max-width:550px;margin:0 auto">At TIMAGE, we nurture talent, foster creativity, and celebrate diversity. Work alongside industry leaders in a culture that values craftsmanship and innovation.</p>
+  </section>
+
+  <div class="j-grid" style="margin:2rem auto">
+    <div class="j-card rv"><h4>Senior Product Developer</h4><div class="loc">Full-time · Shanghai</div><p>Lead color cosmetics development from concept to launch. 5+ years in cosmetics R&D required.</p></div>
+    <div class="j-card rv d1"><h4>Digital Marketing Specialist</h4><div class="loc">Full-time · Beijing</div><p>Drive digital presence across social platforms. Passion for beauty trends essential.</p></div>
+    <div class="j-card rv d2"><h4>Brand Visual Designer</h4><div class="loc">Full-time · Shanghai</div><p>Shape TIMAGE's visual identity. Strong luxury/cosmetics portfolio preferred.</p></div>
+    <div class="j-card rv d3"><h4>Customer Experience Manager</h4><div class="loc">Full-time · Beijing</div><p>Ensure every customer interaction reflects excellence. Luxury retail background required.</p></div>
+  </div>
+
+  <div style="text-align:center;padding:2rem 3rem 4rem" class="rv">
+    <p style="font-size:0.8rem;color:var(--sienna);margin-bottom:0.3rem">Don't see a match?</p>
+    <p style="font-size:0.7rem;color:var(--gray);margin-bottom:1rem">Send your resume to careers@timagecosmetics.com</p>
+    <button class="btn btn-primary">Apply Now →</button>
+  </div>
+</div>
+
+<!-- TEAM -->
+<div class="pg" id="p-team">
+  <section class="sec sec-c" style="padding-top:7rem">
+    <div class="tag">Our Team</div>
+    <h2 class="title">Meet Our Team</h2>
+    <p class="desc" style="margin:1rem auto 0">Nine creative minds collaborating to bring the TIMAGE brand experience to life.</p>
+  </section>
+
+  <section class="team-intro rv" style="margin-top:1.5rem">
+    <p>We are a group of passionate students who designed and developed this TIMAGE brand website as our final project. Each member took responsibility for a specific section of the site.</p>
+  </section>
+
+  <div class="t-grid" style="max-width:1100px;margin:0 auto 3rem">
+    <div class="tm rv"><div class="av">玟</div><div class="name">Bao Wenfei</div><div class="cn">鲍玟霏</div><div class="role">Team Leader · Homepage</div><div class="bio">Led the team and designed the Homepage — brand intro, hero, and visual tone.</div></div>
+    <div class="tm rv d1"><div class="av">钰</div><div class="name">Niu Yujin</div><div class="cn">牛钰瑾</div><div class="role">R&D Page</div><div class="bio">Designed the R&D page covering product science and clean beauty.</div></div>
+    <div class="tm rv d2"><div class="av">旭</div><div class="name">Shi Hanxu</div><div class="cn">石晗旭</div><div class="role">Products Page</div><div class="bio">Created the product showcase with specs, swatches, and shade details.</div></div>
+    <div class="tm rv d3"><div class="av">秀</div><div class="name">Deng Xiuling</div><div class="cn">邓秀玲</div><div class="role">Company Profile</div><div class="bio">Designed the company story page — founder, philosophy, milestones.</div></div>
+    <div class="tm rv"><div class="av">馨</div><div class="name">Zhang Xinyuan</div><div class="cn">张馨元</div><div class="role">After-Sale Service</div><div class="bio">Built the service page covering guarantees and support policies.</div></div>
+    <div class="tm rv d1"><div class="av">柳</div><div class="name">Yan Liujing</div><div class="cn">颜柳静</div><div class="role">News & Events</div><div class="bio">Designed the news page with brand updates and events coverage.</div></div>
+    <div class="tm rv d2"><div class="av">湘</div><div class="name">Chen Xiangyi</div><div class="cn">陈湘怡</div><div class="role">Join Us Page</div><div class="bio">Created the careers page with job listings and culture intro.</div></div>
+    <div class="tm rv d3"><div class="av">瑞</div><div class="name">Yu Hairui</div><div class="cn">于海瑞</div><div class="role">Team · Responsive</div><div class="bio">Designed team page and ensured responsive layout across devices.</div></div>
+    <div class="tm rv"><div class="av">胜</div><div class="name">Hong Shengjie</div><div class="cn">洪胜杰</div><div class="role">QA · Nav · Footer</div><div class="bio">Handled navigation, footer, QA, and interactive elements.</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-g">
+    <div class="footer-brand">
+      <h3>TIMAGE</h3>
+      <p>Chinese makeup, natural beauty. A prestige cosmetics brand by Tang Yi, celebrating the natural beauty of Asian features through innovative formulas.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#" onclick="nav('home')">Home</a></li>
+        <li><a href="#" onclick="nav('rd')">R&D</a></li>
+        <li><a href="#" onclick="nav('products')">Products</a></li>
+        <li><a href="#" onclick="nav('company')">Company</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#" onclick="nav('service')">Service</a></li>
+        <li><a href="#" onclick="nav('news')">News</a></li>
+        <li><a href="#" onclick="nav('join')">Join Us</a></li>
+        <li><a href="#" onclick="nav('team')">Team</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">service@timagecosmetics.com</a></li>
+        <li><a href="#">400-888-TIMAGE</a></li>
+        <li><a href="#">Beijing, China</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bot"><p>&copy; 2026 TIMAGE Cosmetics · Academic Project</p></div>
+</footer>
+
+<script>
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('loader').classList.add('hidden'),800)});
+
+function nav(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById('p-'+id);
+  if(t)t.classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const al=document.querySelector(`.nav-links a[onclick*="'${id}'"]`);
+  if(al)al.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('nl').classList.remove('open');
+}
+function tog(){document.getElementById('nl').classList.toggle('open')}
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60)});
+
+const ro=new IntersectionObserver((e)=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('show')})},{threshold:0.1});
+function obs(){document.querySelectorAll('.rv').forEach(el=>ro.observe(el))}
+const on=nav;nav=function(id){on(id);setTimeout(obs,100)};
+
+document.querySelectorAll('.p-dot').forEach(d=>{d.addEventListener('click',function(){document.querySelectorAll('.p-dot').forEach(s=>s.classList.remove('active'));this.classList.add('active')})});
+obs();
+</script>
+</body>
+</html>
